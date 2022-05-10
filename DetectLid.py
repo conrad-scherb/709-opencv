@@ -4,22 +4,18 @@ import numpy as np
 def DetectLid(path):
     img = cv2.imread(path, cv2.IMREAD_COLOR)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    blurred = cv2.blur(hsv, (3, 3))
 
-    dark_orange = np.array([0, 150, 150])
+    dark_orange = np.array([0, 100, 100])
     light_orange = np.array([25, 255, 255])
 
-    mask = cv2.inRange(blurred, dark_orange, light_orange)
+    mask = cv2.inRange(hsv, dark_orange, light_orange)
     masked = cv2.bitwise_and(img, img, mask = mask)
 
     h, s, v = cv2.split(masked)
 
-    cv2.imshow("Detected Lid", masked)
-    cv2.waitKey(0)
-
     detected_circles = cv2.HoughCircles(v, 
         cv2.HOUGH_GRADIENT, 1, 20, param1 = 50,
-        param2 = 30, minRadius = 5, maxRadius = 40)
+        param2 = 30, minRadius = 35, maxRadius = 45)
     
     if detected_circles is not None:
         detected_circles = np.uint16(np.around(detected_circles))
@@ -33,7 +29,7 @@ def DetectLid(path):
             return img, a, b
 
 if __name__ == '__main__':
-    img, a, b = DetectLid("frames/frames144.jpg")
+    img, a, b = DetectLid("frames/frames134.jpg")
     print("Lid centered at " + str(a) + "," + str(b))
     cv2.imshow("Detected Lid", img)
     cv2.waitKey(0)
