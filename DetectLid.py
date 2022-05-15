@@ -28,8 +28,11 @@ def DetectLid(path):
 
             return img, a, b
 
-if __name__ == '__main__':
-    img, a, b = DetectLid("frames/frames134.jpg")
-    print("Lid centered at " + str(a) + "," + str(b))
-    cv2.imshow("Detected Lid", img)
-    cv2.waitKey(0)
+try:    # delete later :)
+    if __name__ == '__main__':
+        img, a, b = DetectLid("frames/frames331.jpg")
+        print("Lid centered at " + str(a) + "," + str(b))
+        cv2.imshow("Detected Lid", img)
+        cv2.waitKey(0)
+except:
+    print("no lid at this frame")

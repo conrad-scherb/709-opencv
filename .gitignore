@@ -1,2 +1,4 @@
 /.DS_Store
 /frames
+__pycache__
+/kuka2-env
