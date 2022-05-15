@@ -9,7 +9,7 @@ def adjust_gamma(image, gamma=1.0): #gamma function
 
    return cv2.LUT(image, table)
 
-def DetectTetrapak(path):
+def DetectRoll(path):
     y1=500
     y2=860
     x1=1500
@@ -63,20 +63,19 @@ def DetectTetrapak(path):
     for i in cntrRect:
             area = cv2.contourArea(i)   #debug
             print(area)                 #debug
-            cv2.drawContours(roi,cntrRect,-1,(0,255,0),2)
             M = cv2.moments(i)
             cX = int(M["m10"] / M["m00"]) + x1
             cY = int(M["m01"] / M["m00"]) + y1
             # draw the contour and center of the shape on the image
             cv2.drawContours(roi,cntrRect,-1,(0,255,0),2)
             cv2.circle(img, (cX, cY), 7, (255, 255, 255), -1)
-            cv2.putText(img, "Roll center", (cX - 80 , cY - 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+            cv2.putText(img, "Roll center", (cX - 60 , cY - 30),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
             return img, cX, cY
 
 try:    # delete later :)
     if __name__ == '__main__':
-        img, cX, cY = DetectTetrapak("frames/frames3670.jpg")
+        img, cX, cY = DetectRoll("frames/frames3670.jpg")
         print("Paper roll centered at " + str(cX) + "," + str(cY))
         cv2.imshow('Detected Paper Roll',img)
         cv2.waitKey(0)
