@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from FrameExtractor import *
 
 def DetectLid(path):
     img = cv2.imread(path, cv2.IMREAD_COLOR)
@@ -25,12 +26,13 @@ def DetectLid(path):
     
             cv2.rectangle(img, (a-r-5, b-r-5), (a+r+5, b+r+5), (0, 255, 0), 2)
             cv2.putText(img, 'Lid', (a-r-5, b-r-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-
+            cv2.circle(img, (a, b), 7, (0, 255, 0), -1)
+            img = DrawLanes(img)
             return img, a, b
 
 try:    # delete later :)
     if __name__ == '__main__':
-        img, a, b = DetectLid("frames/frames331.jpg")
+        img, a, b = DetectLid("framesTrimmed/frames201.jpg")
         print("Lid centered at " + str(a) + "," + str(b))
         cv2.imshow("Detected Lid", img)
         cv2.waitKey(0)
