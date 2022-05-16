@@ -11,7 +11,7 @@ def CalculateRollSpeed(startingFrame, span):
 
     time = span/fps
 
-    return abs(x1-x2)/time, x2
+    return abs(x1-x2)/time, x1
 
 def CalculateTimePickup(startingFrame, span):
     speed, xObj = CalculateRollSpeed(startFrame,span)
@@ -30,7 +30,7 @@ while test == 0:
         if __name__ == '__main__':
             time = CalculateTimePickup(startFrame, 30)
             print("roll will reach pickup point in " + str(time) + " seconds.")
-            #this is the time from the last frame i.e. startFrame+30 i think
+            #this is the time from the start frame i think
             test = 1
     except:
         print("there is no roll at frame " , startFrame)

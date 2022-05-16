@@ -11,7 +11,7 @@ def CalculateTetrapakSpeed(startingFrame, span):
 
     time = span/fps
 
-    return abs(x1-x2)/time, x2
+    return abs(x1-x2)/time, x1
 
 def CalculateTimePickup(startingFrame, span):
     speed, xObj = CalculateTetrapakSpeed(startFrame,span)
@@ -24,13 +24,13 @@ def CalculateTimePickup(startingFrame, span):
 
 
 test = 0
-startFrame = 150
+startFrame = 848
 while test == 0:
     try:
         if __name__ == '__main__':
             time = CalculateTimePickup(startFrame, 30)
             print("tetrapak will reach pickup point in " + str(time) + " seconds.")
-            #this is the time from the last frame i.e. startFrame+30 i think
+            #this is the time from the start frame i think
             test = 1
     except:
         print("there is no tetrapak at frame " , startFrame)
