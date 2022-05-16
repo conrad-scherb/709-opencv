@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from FrameExtractor import *
 
 def adjust_gamma(image, gamma=1.0): #gamma function
 
@@ -51,6 +52,7 @@ def DetectRoll(path):
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Paper roll", (cX - 60 , cY - 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            img = DrawLanes(img)
             return img, cX, cY
 
 try:    # delete later :)

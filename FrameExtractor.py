@@ -18,9 +18,6 @@ def FrameExtractor(path):
             x1=780
             x2=1780
             roi = image[y1:y2, x1:x2]   #trim video to save computing power
-
-            #pickup point will be at
-            #x=233, y to be determined by lanes later :)
             
             cv2.imwrite("framesTrimmed/frames%d.jpg" % frameNum, roi)
             # cv2.imwrite("frames/frames%d.jpg" % frameNum, image)
@@ -29,6 +26,24 @@ def FrameExtractor(path):
         except:
             print("Frame " + str(frameNum) + " empty or nonexistant.")
 
+def DrawLanes(img):
+    xPickup = 233       #pickup point will be at x = 233
+    yBeltLower = 410
+    yBeltUpper = 40
+    image = cv2.line(img, (xPickup, yBeltUpper), (xPickup, yBeltLower), (0, 128, 265), 3)
+
+    #60 to 400 = 340, thf. 340/4 = 85
+    laneTop = 60
+    laneLower1 = laneTop + 85
+    laneLower2 = laneLower1 + 85
+    laneLower3 = laneLower2 + 85
+    laneBottom = 400
+    image = cv2.line(image, (xPickup-20, laneTop), (xPickup+20, laneTop), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneLower1), (xPickup+20, laneLower1), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneLower2), (xPickup+20, laneLower2), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneLower3), (xPickup+20, laneLower3), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneBottom), (xPickup+20, laneBottom), (265, 128, 0), 3)
+    return image
 
 if __name__ == '__main__':
     FrameExtractor("conveyor_feed.mp4")

@@ -18,7 +18,7 @@ def CalculateTimePickup(startingFrame, span):
     print(str(speed) + " pixels per second")
     # t = d/v
     xPickup = 233
-    print(str(xObj-xPickup))
+    # print(str(xObj-xPickup))
     timePickup = (xObj-xPickup)/speed
     return timePickup
 
@@ -28,9 +28,13 @@ startFrame = 848
 while test == 0:
     try:
         if __name__ == '__main__':
-            time = CalculateTimePickup(startFrame, 30)
+            time = CalculateTimePickup(startFrame, 30)      #this is the time from the start frame i think
             print("tetrapak will reach pickup point in " + str(time) + " seconds.")
-            #this is the time from the start frame i think
+            
+            #TODO: change speed to an average function maybe since sometimes the conveyor slows down
+            #TODO: the specific frame that the timing actually starts from isnt saved if input too early frame (no object)
+            #TODO: the 2 second befor pickup thing
+
             test = 1
     except:
         print("there is no tetrapak at frame " , startFrame)

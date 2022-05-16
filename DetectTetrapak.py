@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from FrameExtractor import *
 
 def DetectTetrapak(path):
     # y1=500
@@ -41,6 +42,7 @@ def DetectTetrapak(path):
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Tetrapak", (cX - 90 , cY - 65),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            img = DrawLanes(img)
             return img, cX, cY
 
 try:    # delete later :)
