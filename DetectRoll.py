@@ -52,7 +52,7 @@ def DetectRoll(path):
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Paper roll", (cX - 60 , cY - 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-            img = DrawLanes(img)
+            img = DrawLanes(img, cY)
             return img, cX, cY
 
 try:    # delete later :)

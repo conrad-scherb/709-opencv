@@ -26,7 +26,7 @@ def FrameExtractor(path):
         except:
             print("Frame " + str(frameNum) + " empty or nonexistant.")
 
-def DrawLanes(img):
+def DrawLanes(img, yCOM):
     xPickup = 233       #pickup point will be at x = 233
     yBeltLower = 410
     yBeltUpper = 40
@@ -38,6 +38,19 @@ def DrawLanes(img):
     laneLower2 = laneLower1 + 85
     laneLower3 = laneLower2 + 85
     laneBottom = 400
+
+    #Lane determination - idk where we want to put this function (maybe in the calculate function)
+    lane = 1
+    if ((yCOM < laneLower1) and (yCOM >= laneTop)):
+        lane = 1
+    if ((yCOM < laneLower2) and (yCOM >= laneLower1)):
+        lane = 2
+    if ((yCOM < laneLower3) and (yCOM >= laneLower2)):
+        lane = 3
+    if ((yCOM <= laneBottom) and (yCOM >= laneLower3)):
+        lane = 4
+    print("Arriving at pickup point at lane " + str(lane))
+
     image = cv2.line(image, (xPickup-20, laneTop), (xPickup+20, laneTop), (265, 128, 0), 3)
     image = cv2.line(image, (xPickup-20, laneLower1), (xPickup+20, laneLower1), (265, 128, 0), 3)
     image = cv2.line(image, (xPickup-20, laneLower2), (xPickup+20, laneLower2), (265, 128, 0), 3)

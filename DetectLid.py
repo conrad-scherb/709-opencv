@@ -27,7 +27,7 @@ def DetectLid(path):
             cv2.rectangle(img, (a-r-5, b-r-5), (a+r+5, b+r+5), (0, 255, 0), 2)
             cv2.putText(img, 'Lid', (a-r-5, b-r-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
             cv2.circle(img, (a, b), 7, (0, 255, 0), -1)
-            img = DrawLanes(img)
+            img = DrawLanes(img, b)
             return img, a, b
 
 try:    # delete later :)
