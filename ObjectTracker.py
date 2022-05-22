@@ -24,6 +24,12 @@ class ObjectTracker:
         # print(objectsCOM)
         # print("old")
         # print(self.center_points)
+        # print("")
+        # print("center points: ")
+        # print(self.center_points)
+        # print("delete points: ")
+        # print(self.disappeared)
+        # print("")
 
         #if no objects detected, but previous contains objects
         if len(objectsCOM) == 0:
@@ -54,9 +60,9 @@ class ObjectTracker:
             # Find out if that object was detected already, by comparing current object (cx,cy) against each stored object 1 by 1 (id, (pt.cx, pt.cy))
             same_object_detected = False
             for id, pt in self.center_points.items():
-                dist = math.hypot(cx - pt[0], cy - pt[1])
+                dist = math.hypot(int(cx) - pt[0], int(cy) - pt[1])
 
-                if (dist < 50) and ((cx - pt[0]) <= 10): # (minimum distance, and new x is left side) (+10 pixel tolerance)
+                if (dist < 60) and ((int(cx) - (pt[0])) <= 5): # (minimum distance, and new x is left side) (+10 pixel tolerance)
                     #todo speed 
                     bork = frameNum - self.speed[id][2]
                     velocity = ( (self.speed[id][0] * (bork - (frameNum - self.speed[id][1])) / 30 + (pt[0] - cx)) / ( (frameNum - self.speed[id][2]) / 30) )
@@ -78,21 +84,35 @@ class ObjectTracker:
                 self.disappeared[self.id_count] = 0
                 objects_bbs_ids.append([cx, cy, self.id_count, 0])
                 self.id_count += 1
+    
+        # new_disappeared_count = self.disappeared.copy()
+        # for id in new_disappeared_count:
+        #     if self.disappeared[id] > self.maxDisappeared:  #if gone for more than 5 frame-reads, remove object
+        #         # print("center points")
+        #         # print(self.center_points[id])
+        #         # print("del count")
+        #         # print(self.disappeared[id])
+        #         del self.center_points[id]
+        #         del self.speed[id]
+        #         del self.disappeared[id]
 
         # Clean the dictionary by center points to remove IDs not used anymore
         new_center_points = {}
-        new_speed_points = {}
+        new_disappear_points = {}
         for obj_bb_id in objects_bbs_ids:
             _, _, object_id, _ = obj_bb_id
             center = self.center_points[object_id]
             new_center_points[object_id] = center
-            
+
+            count = self.disappeared[object_id]
+            new_disappear_points[object_id] = count
             # print(obj_bb_id)
             # print("new")
             # print(new_center_points)
 
         # Update dictionary with IDs not used removed
         self.center_points = new_center_points.copy()
+        self.disappeared = new_disappear_points.copy()
         # print("this is obj id")
         # print(self.center_points)
         # print("")

@@ -26,7 +26,7 @@ def FrameExtractor(path):
         except:
             print("Frame " + str(frameNum) + " empty or nonexistant.")
 
-def DrawLanes(img, yCOM):
+def DrawLanes(img):
     xPickup = 233       #pickup point will be at x = 233
     yBeltLower = 410
     yBeltUpper = 40
@@ -65,6 +65,16 @@ def DetectLanes(yCOM):
         lane = 4
     print("Arriving at pickup point at lane " + str(lane) + " in 2 seconds")
     return lane
+
+def checkFor2Seconds(speed, xPos, yPos, objType, frameNum):
+    xPickup = 233
+    if speed > 0:
+        timeToPickup = (xPos - xPickup)/speed
+        if (timeToPickup <= 2):
+            time = frameNum/30.0
+            print("it is now " + str(time) + " seconds:")
+            print(objType + " centered at " + str(xPos) + "," + str(yPos) + " will be")
+            DetectLanes(yPos)
 
 if __name__ == '__main__':
     FrameExtractor("conveyor_feed.mp4")

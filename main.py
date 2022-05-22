@@ -3,8 +3,9 @@ from DetectTetrapak import *
 from DetectRoll import *
 from ObjectTracker import *
 from FrameExtractor import *
+import cv2
 
-frameNum = 1000 #3170 #2300 #6000 # 0
+frameNum = 0 #3170 #2300 #6000 # 0
 
 trackerTetrapak = ObjectTracker()
 trackerRoll = ObjectTracker()
@@ -25,6 +26,7 @@ while True:
             cv2.putText(img, "Lid", (cX - 10 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             cv2.putText(img, ("[%d]" %id), (cX - 10 , cY - 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
             print("Lid centered at " + str(cX) + "," + str(cY))
+            checkFor2Seconds(speed, cX, cY, "Roll", frameNum)
 
     img, StoreTetrapak = DetectTetrapak(img)
     obj_ids_tetrapak = trackerTetrapak.update(StoreTetrapak, frameNum)
@@ -34,14 +36,15 @@ while True:
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Tetrapak", (cX - 90 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             cv2.putText(img, ("[%d]" %id), (cX - 90 , cY - 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-            xPickup = 233
-            if speed > 0:
-                timeToPickup = (cX - xPickup)/speed
-                if (timeToPickup <= 2):
-                    time = frameNum/30.0
-                    print("it is now " + str(time) + " seconds:")
-                    print("Tetrapak centered at " + str(cX) + "," + str(cY) + " will be")
-                    DetectLanes(cY)
+            # xPickup = 233
+            checkFor2Seconds(speed, cX, cY, "Tetrapak", frameNum)
+            # if speed > 0:
+            #     timeToPickup = (cX - xPickup)/speed
+            #     if (timeToPickup <= 2):
+            #         time = frameNum/30.0
+            #         print("it is now " + str(time) + " seconds:")
+            #         print("Tetrapak centered at " + str(cX) + "," + str(cY) + " will be")
+            #         DetectLanes(cY)
     
     img, StoreRoll = DetectRoll(img)
     # print(StoreRoll)
@@ -52,14 +55,15 @@ while True:
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Paper roll", (cX - 60 , cY - 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             cv2.putText(img, ("[%d]" %id), (cX - 60 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-            xPickup = 233
-            if speed > 0:
-                timeToPickup = (cX - xPickup)/speed
-                if (timeToPickup <= 2):
-                    time = frameNum/30.0
-                    print("it is now " + str(time) + " seconds:")
-                    print("Roll centered at " + str(cX) + "," + str(cY) + " will be")
-                    DetectLanes(cY)
+            checkFor2Seconds(speed, cX, cY, "Roll", frameNum)
+            # xPickup = 233
+            # if speed > 0:
+            #     timeToPickup = (cX - xPickup)/speed
+            #     if (timeToPickup <= 2):
+            #         time = frameNum/30.0
+            #         print("it is now " + str(time) + " seconds:")
+            #         print("Roll centered at " + str(cX) + "," + str(cY) + " will be")
+            #         DetectLanes(cY)
 
     # img2, StoreRolls = DetectRoll("framesTrimmed/frames%d.jpg" % frameNum)
     # obj_idsRoll = trackerRoll.update(StoreRolls)
@@ -68,7 +72,7 @@ while True:
     #     cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
     #     cv2.putText(img, "roll", (cX - 90 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     #     cv2.putText(img, ("[%d]" %id), (cX - 90 , cY - 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-    img = DrawLanes(img, 100)
+    img = DrawLanes(img)
     cv2.imshow("no Lid", img)
     cv2.waitKey(0)
     # if frameNum < 2301:
