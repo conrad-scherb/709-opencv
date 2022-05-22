@@ -10,16 +10,16 @@ def adjust_gamma(image, gamma=1.0): #gamma function
 
    return cv2.LUT(image, table)
 
-def DetectRoll(path):
+def DetectRoll(img):
     # y1=500
     # y2=860
     # x1=1500
     # x2=1920
 
-    img = cv2.imread(path, cv2.IMREAD_COLOR)
+    # img = cv2.imread(path, cv2.IMREAD_COLOR)
     # roi = img[y1:y2, x1:x2]     #region of interest 
 
-    gamma = 0.8                # darken image to exclude roll shadow
+    gamma = 0.85                # darken image to exclude roll shadow
     adjusted = adjust_gamma(img, gamma=gamma)
 
     dark_brown = np.array([0, 0, 150])
@@ -36,7 +36,7 @@ def DetectRoll(path):
 
     #Loop through contours to find rectangles with area range of roll
     cntrRect = []
-    RollCOM = []
+    rollCOM = []
     for i in contours:
             area = cv2.contourArea(i)
             # print(area) #debug
@@ -62,13 +62,14 @@ def DetectRoll(path):
         # cv2.putText(img, "Paper roll", (cX - 60 , cY - 40),
         #     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         # img = DrawLanes(img, cY)
-        RollCOM.append([cX, cY])
-    return img, RollCOM
+        rollCOM.append([cX, cY])
+    return img, rollCOM
 
 if __name__ == '__main__':
+    img = cv2.imread("framesTrimmed/frames1700.jpg", cv2.IMREAD_COLOR)
     # img, cX, cY = DetectRoll("framesTrimmed/frames5000.jpg")
     # print("Paper roll centered at " + str(cX) + "," + str(cY))
-    img, rollstorage = DetectRoll("framesTrimmed/frames1700.jpg")
+    img, rollstorage = DetectRoll(img)
     print(rollstorage)
     for i in rollstorage:
         xcom, ycom = i

@@ -2,13 +2,13 @@ import cv2
 import numpy as np
 from FrameExtractor import *
 
-def DetectTetrapak(path):
+def DetectTetrapak(img):
     # y1=500
     # y2=860
     # x1=1500
     # x2=1920
 
-    img = cv2.imread(path, cv2.IMREAD_COLOR)
+    # img = cv2.imread(path, cv2.IMREAD_COLOR)
     # roi = img[y1:y2, x1:x2]        #region of interest 
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -19,7 +19,7 @@ def DetectTetrapak(path):
 
     #Loop through contours to find rectangles with area range of tetrapak
     cntrRect = []
-    TetrapakCOM = []
+    tetrapakCOM = []
     for i in contours:
             area = cv2.contourArea(i)
             # print(area) #debug
@@ -44,17 +44,15 @@ def DetectTetrapak(path):
         # cv2.putText(img, "Tetrapak", (cX - 90 , cY - 65),
         #     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         # img = DrawLanes(img, cY)
-        TetrapakCOM.append([cX, cY])
-    return img, TetrapakCOM
+        tetrapakCOM.append([cX, cY])
+    return img, tetrapakCOM
 
 if __name__ == '__main__':
-    try:    # delete later :)
-        img, tetrapakstore = DetectTetrapak("framesTrimmed/frames290.jpg")
-        print(tetrapakstore)
-        for i in tetrapakstore:
-            xcom, ycom = i
-            print("Tetrapak centered at " + str(tetrapakstore[0][0]) + "," + str(tetrapakstore[0][1]))
-        cv2.imshow('Detected tetrapak',img)
-        cv2.waitKey(0)
-    except:
-        print("no tetrapak at this frame")
+    img = cv2.imread("framesTrimmed/frames290.jpg", cv2.IMREAD_COLOR)
+    img, tetrapakstore = DetectTetrapak(img)
+    print(tetrapakstore)
+    for i in tetrapakstore:
+        xcom, ycom = i
+        print("Tetrapak centered at " + str(tetrapakstore[0][0]) + "," + str(tetrapakstore[0][1]))
+    cv2.imshow('Detected tetrapak',img)
+    cv2.waitKey(0)

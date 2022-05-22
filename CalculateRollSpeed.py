@@ -4,12 +4,16 @@ def CalculateRollSpeed(startingFrame, span):
     fps = 30
 
     path1 = "framesTrimmed/frames" + str(startingFrame) + ".jpg"
+    img1 = cv2.imread(path1, cv2.IMREAD_COLOR)
     path2 = "framesTrimmed/frames" + str(startingFrame+span) + ".jpg"
+    img2 = cv2.imread(path2, cv2.IMREAD_COLOR)
 
-    img1, x1, y1 = DetectRoll(path1)
-    img2, x2, y2 = DetectRoll(path2)
+    img1, com1 = DetectRoll(img1)
+    img2, com2 = DetectRoll(img2)
 
     time = span/fps
+    x1 = com1[0][0]
+    x2 = com2[0][0]
 
     return abs(x1-x2)/time, x1
 

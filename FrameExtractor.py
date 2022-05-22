@@ -39,7 +39,21 @@ def DrawLanes(img, yCOM):
     laneLower3 = laneLower2 + 85
     laneBottom = 400
 
-    #Lane determination - idk where we want to put this function (maybe in the calculate function)
+    image = cv2.line(image, (xPickup-20, laneTop), (xPickup+20, laneTop), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneLower1), (xPickup+20, laneLower1), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneLower2), (xPickup+20, laneLower2), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneLower3), (xPickup+20, laneLower3), (265, 128, 0), 3)
+    image = cv2.line(image, (xPickup-20, laneBottom), (xPickup+20, laneBottom), (265, 128, 0), 3)
+    return image
+
+def DetectLanes(yCOM):
+    #60 to 400 = 340, thf. 340/4 = 85
+    laneTop = 60
+    laneLower1 = laneTop + 85
+    laneLower2 = laneLower1 + 85
+    laneLower3 = laneLower2 + 85
+    laneBottom = 400
+
     lane = 1
     if ((yCOM < laneLower1) and (yCOM >= laneTop)):
         lane = 1
@@ -50,13 +64,7 @@ def DrawLanes(img, yCOM):
     if ((yCOM <= laneBottom) and (yCOM >= laneLower3)):
         lane = 4
     print("Arriving at pickup point at lane " + str(lane))
-
-    image = cv2.line(image, (xPickup-20, laneTop), (xPickup+20, laneTop), (265, 128, 0), 3)
-    image = cv2.line(image, (xPickup-20, laneLower1), (xPickup+20, laneLower1), (265, 128, 0), 3)
-    image = cv2.line(image, (xPickup-20, laneLower2), (xPickup+20, laneLower2), (265, 128, 0), 3)
-    image = cv2.line(image, (xPickup-20, laneLower3), (xPickup+20, laneLower3), (265, 128, 0), 3)
-    image = cv2.line(image, (xPickup-20, laneBottom), (xPickup+20, laneBottom), (265, 128, 0), 3)
-    return image
+    return lane
 
 if __name__ == '__main__':
     FrameExtractor("conveyor_feed.mp4")
