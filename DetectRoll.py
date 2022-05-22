@@ -21,8 +21,15 @@ def DetectRoll(path):
 
     gamma = 0.8                # darken image to exclude roll shadow
     adjusted = adjust_gamma(img, gamma=gamma)
-    gray = cv2.cvtColor(adjusted, cv2.COLOR_BGR2GRAY)
-    blur=cv2.GaussianBlur(gray,(5,5),1)
+
+    dark_brown = np.array([0, 0, 150])
+    light_brown = np.array([100, 200, 255])
+    hsv = cv2.cvtColor(adjusted, cv2.COLOR_BGR2HSV)
+    mask = cv2.inRange(hsv, dark_brown, light_brown)
+    masked = cv2.bitwise_and(img, img, mask = mask)
+
+    gray = cv2.cvtColor(masked, cv2.COLOR_BGR2GRAY)
+    blur=cv2.GaussianBlur(gray,(3,3),1)
     threshold = cv2.threshold(blur,127,255,cv2.THRESH_BINARY)[1] #apply global thresholding
     canny=cv2.Canny(threshold,10,50)
     contours =cv2.findContours(canny,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)[0]
