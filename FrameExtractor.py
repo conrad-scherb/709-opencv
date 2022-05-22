@@ -63,7 +63,7 @@ def DetectLanes(yCOM):
         lane = 3
     if ((yCOM <= laneBottom) and (yCOM >= laneLower3)):
         lane = 4
-    print("Arriving at pickup point at lane " + str(lane))
+    print("Arriving at pickup point at lane " + str(lane) + " in 2 seconds")
     return lane
 
 if __name__ == '__main__':

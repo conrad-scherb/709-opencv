@@ -28,7 +28,7 @@ def CalculateTimePickupRoll(startingFrame, span):
 
 if __name__ == '__main__':
     test = 0
-    startFrame = 100
+    startFrame = 300
     while test == 0:
         try:
             
