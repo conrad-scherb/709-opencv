@@ -13,8 +13,8 @@ def CalculateRollSpeed(startingFrame, span):
 
     return abs(x1-x2)/time, x1
 
-def CalculateTimePickup(startingFrame, span):
-    speed, xObj = CalculateRollSpeed(startFrame,span)
+def CalculateTimePickupRoll(startingFrame, span):
+    speed, xObj = CalculateRollSpeed(startingFrame,span)
     print(str(speed) + " pixels per second")
     # t = d/v
     xPickup = 233
@@ -22,13 +22,13 @@ def CalculateTimePickup(startingFrame, span):
     timePickup = (xObj-xPickup)/speed
     return timePickup
 
-
-test = 0
-startFrame = 100
-while test == 0:
-    try:
-        if __name__ == '__main__':
-            time = CalculateTimePickup(startFrame, 30)      #this is the time from the start frame i think
+if __name__ == '__main__':
+    test = 0
+    startFrame = 100
+    while test == 0:
+        try:
+            
+            time = CalculateTimePickupRoll(startFrame, 30)      #this is the time from the start frame i think
             print("roll will reach pickup point in " + str(time) + " seconds.")
             
             #TODO: change speed to an average function maybe since sometimes the conveyor slows down
@@ -36,6 +36,6 @@ while test == 0:
             #TODO: the 2 second befor pickup thing
 
             test = 1
-    except:
-        print("there is no roll at frame " , startFrame)
-        startFrame += 1
+        except:
+            print("there is no roll at frame " , startFrame)
+            startFrame += 1

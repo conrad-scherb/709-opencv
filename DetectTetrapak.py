@@ -19,6 +19,7 @@ def DetectTetrapak(path):
 
     #Loop through contours to find rectangles with area range of tetrapak
     cntrRect = []
+    TetrapakCOM = []
     for i in contours:
             area = cv2.contourArea(i)
             # print(area) #debug
@@ -32,24 +33,28 @@ def DetectTetrapak(path):
     
     # print("Number of rec found = " + str(len(cntrRect)))    #debug
     for i in cntrRect:
-            area = cv2.contourArea(i)   #debug
-            # print(area)                 #debug
-            M = cv2.moments(i)
-            cX = int(M["m10"] / M["m00"]) #+ x1 #trimmed comment out
-            cY = int(M["m01"] / M["m00"]) #+ y1 #trimmed comment out
-            # draw the contour and center of the shape on the image
-            cv2.drawContours(img,cntrRect,-1,(0,255,0),2)
-            cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
-            cv2.putText(img, "Tetrapak", (cX - 90 , cY - 65),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-            img = DrawLanes(img, cY)
-            return img, cX, cY
+        area = cv2.contourArea(i)   #debug
+        # print(area)                 #debug
+        M = cv2.moments(i)
+        cX = int(M["m10"] / M["m00"]) #+ x1 #trimmed comment out
+        cY = int(M["m01"] / M["m00"]) #+ y1 #trimmed comment out
+        # draw the contour and center of the shape on the image
+        cv2.drawContours(img,cntrRect,-1,(0,255,0),2)
+        # cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
+        # cv2.putText(img, "Tetrapak", (cX - 90 , cY - 65),
+        #     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        # img = DrawLanes(img, cY)
+        TetrapakCOM.append([cX, cY])
+    return img, TetrapakCOM
 
-try:    # delete later :)
-    if __name__ == '__main__':
-        img, cX, cY = DetectTetrapak("framesTrimmed/frames290.jpg")
-        print("Tetrapak centered at " + str(cX) + "," + str(cY))
+if __name__ == '__main__':
+    try:    # delete later :)
+        img, tetrapakstore = DetectTetrapak("framesTrimmed/frames290.jpg")
+        print(tetrapakstore)
+        for i in tetrapakstore:
+            xcom, ycom = i
+            print("Tetrapak centered at " + str(tetrapakstore[0][0]) + "," + str(tetrapakstore[0][1]))
         cv2.imshow('Detected tetrapak',img)
         cv2.waitKey(0)
-except:
-    print("no tetrapak at this frame")
+    except:
+        print("no tetrapak at this frame")

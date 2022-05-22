@@ -29,6 +29,7 @@ def DetectRoll(path):
 
     #Loop through contours to find rectangles with area range of roll
     cntrRect = []
+    RollCOM = []
     for i in contours:
             area = cv2.contourArea(i)
             # print(area) #debug
@@ -38,28 +39,50 @@ def DetectRoll(path):
                 if len(approx) == 4:
                     # print(area) #debug
                     cntrRect.append(approx)
+                    # print(approx)
                     # cv2.drawContours(roi,cntrRect,-1,(0,255,0),2)
     
     # print("Number of rec found = " + str(len(cntrRect)))    #debug
     for i in cntrRect:
-            area = cv2.contourArea(i)   #debug
-            # print(area)                 #debug
-            M = cv2.moments(i)
-            cX = int(M["m10"] / M["m00"]) #+ x1     #comment out +x1 if trimmed frame
-            cY = int(M["m01"] / M["m00"]) #+ y1     #comment out +y1 if trimmed frame
-            # draw the contour and center of the shape on the image
-            cv2.drawContours(img,cntrRect,-1,(0,255,0),2)
-            cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
-            cv2.putText(img, "Paper roll", (cX - 60 , cY - 40),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-            img = DrawLanes(img, cY)
-            return img, cX, cY
+        area = cv2.contourArea(i)   #debug
+        # print(area)                 #debug
+        M = cv2.moments(i)
+        cX = int(M["m10"] / M["m00"]) #+ x1     #comment out +x1 if trimmed frame
+        cY = int(M["m01"] / M["m00"]) #+ y1     #comment out +y1 if trimmed frame
+        # draw the contour and center of the shape on the image
+        cv2.drawContours(img,cntrRect,-1,(0,255,0),2)
+        # cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
+        # cv2.putText(img, "Paper roll", (cX - 60 , cY - 40),
+        #     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        # img = DrawLanes(img, cY)
+        RollCOM.append([cX, cY])
+    return img, RollCOM
 
-try:    # delete later :)
-    if __name__ == '__main__':
-        img, cX, cY = DetectRoll("framesTrimmed/frames3670.jpg")
-        print("Paper roll centered at " + str(cX) + "," + str(cY))
-        cv2.imshow('Detected Paper Roll',img)
-        cv2.waitKey(0)
-except:
-    print("no roll at this frame")
+if __name__ == '__main__':
+    # img, cX, cY = DetectRoll("framesTrimmed/frames5000.jpg")
+    # print("Paper roll centered at " + str(cX) + "," + str(cY))
+    img, rollstorage = DetectRoll("framesTrimmed/frames1700.jpg")
+    print(rollstorage)
+    for i in rollstorage:
+        xcom, ycom = i
+        print("Paper roll centered at " + str(xcom) + "," + str(ycom))
+
+    cv2.imshow('Detected Paper Roll',img)
+    cv2.waitKey(0)
+
+# try:    # delete later :)
+#     if __name__ == '__main__':
+#         # img, cX, cY = DetectRoll("framesTrimmed/frames5000.jpg")
+#         # print("Paper roll centered at " + str(cX) + "," + str(cY))
+#         img, rollstorage = DetectRoll("framesTrimmed/frames5000.jpg")
+#         print(rollstorage)
+#         for i in rollstorage:
+#             xcom, ycom = rollstorage[i]
+#             print(xcom)
+#             print(ycom)
+
+
+#         cv2.imshow('Detected Paper Roll',img)
+#         cv2.waitKey(0)
+# except:
+#     print("no roll at this frame")

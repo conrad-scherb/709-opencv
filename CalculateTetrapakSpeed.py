@@ -13,8 +13,8 @@ def CalculateTetrapakSpeed(startingFrame, span):
 
     return abs(x1-x2)/time, x1
 
-def CalculateTimePickup(startingFrame, span):
-    speed, xObj = CalculateTetrapakSpeed(startFrame,span)
+def CalculateTimePickupTetrapak(startingFrame, span):
+    speed, xObj = CalculateTetrapakSpeed(startingFrame,span)
     print(str(speed) + " pixels per second")
     # t = d/v
     xPickup = 233
@@ -22,13 +22,13 @@ def CalculateTimePickup(startingFrame, span):
     timePickup = (xObj-xPickup)/speed
     return timePickup
 
-
-test = 0
-startFrame = 848
-while test == 0:
-    try:
-        if __name__ == '__main__':
-            time = CalculateTimePickup(startFrame, 30)      #this is the time from the start frame i think
+if __name__ == '__main__':
+    test = 0
+    startFrame = 848
+    while test == 0:
+        try:
+            
+            time = CalculateTimePickupTetrapak(startFrame, 30)      #this is the time from the start frame i think
             print("tetrapak will reach pickup point in " + str(time) + " seconds.")
             
             #TODO: change speed to an average function maybe since sometimes the conveyor slows down
@@ -36,6 +36,6 @@ while test == 0:
             #TODO: the 2 second befor pickup thing
 
             test = 1
-    except:
-        print("there is no tetrapak at frame " , startFrame)
-        startFrame += 1
+        except:
+            print("there is no tetrapak at frame " , startFrame)
+            startFrame += 1
