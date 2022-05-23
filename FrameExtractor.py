@@ -75,6 +75,7 @@ def checkFor2Seconds(speed, xPos, yPos, objType, frameNum):
             print("it is now " + str(time) + " seconds:")
             print(objType + " centered at " + str(xPos) + "," + str(yPos) + " will be")
             DetectLanes(yPos)
+            return True
 
 if __name__ == '__main__':
     FrameExtractor("conveyor_feed.mp4")

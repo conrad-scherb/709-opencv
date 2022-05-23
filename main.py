@@ -21,23 +21,27 @@ while True:
     obj_ids_lid = trackerLid.update(StoreLid, frameNum)
     if (len(obj_ids_lid) != 0):
         for obj_id in obj_ids_lid:  #obj_id = [x,y, id]a
-            cX, cY, id, speed = obj_id
+            cX, cY, id, speed, printed = obj_id
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Lid", (cX - 10 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             cv2.putText(img, ("[%d]" %id), (cX - 10 , cY - 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-            print("Lid centered at " + str(cX) + "," + str(cY))
-            checkFor2Seconds(speed, cX, cY, "Roll", frameNum)
+            # print("Lid centered at " + str(cX) + "," + str(cY))
+            if (printed != 1):
+                if(checkFor2Seconds(speed, cX, cY, "Roll", frameNum)):
+                    trackerLid.printedObject(id)
 
     img, StoreTetrapak = DetectTetrapak(img)
     obj_ids_tetrapak = trackerTetrapak.update(StoreTetrapak, frameNum)
     if (len(obj_ids_tetrapak) != 0):
         for obj_id in obj_ids_tetrapak:  #obj_id = [x,y, id]
-            cX, cY, id, speed = obj_id
+            cX, cY, id, speed, printed = obj_id
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Tetrapak", (cX - 90 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             cv2.putText(img, ("[%d]" %id), (cX - 90 , cY - 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
             # xPickup = 233
-            checkFor2Seconds(speed, cX, cY, "Tetrapak", frameNum)
+            if (printed != 1):
+                if(checkFor2Seconds(speed, cX, cY, "Tetrapak", frameNum)):
+                    trackerTetrapak.printedObject(id)
             # if speed > 0:
             #     timeToPickup = (cX - xPickup)/speed
             #     if (timeToPickup <= 2):
@@ -51,11 +55,13 @@ while True:
     obj_ids_roll = trackerRoll.update(StoreRoll, frameNum)
     if (len(obj_ids_roll) != 0):
         for obj_id in obj_ids_roll:  #obj_id = [x,y, id]
-            cX, cY, id, speed  = obj_id
+            cX, cY, id, speed, printed  = obj_id
             cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
             cv2.putText(img, "Paper roll", (cX - 60 , cY - 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             cv2.putText(img, ("[%d]" %id), (cX - 60 , cY - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-            checkFor2Seconds(speed, cX, cY, "Roll", frameNum)
+            if (printed != 1):
+                if(checkFor2Seconds(speed, cX, cY, "Roll", frameNum)):
+                    trackerRoll.printedObject(id)
             # xPickup = 233
             # if speed > 0:
             #     timeToPickup = (cX - xPickup)/speed

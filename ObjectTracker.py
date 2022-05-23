@@ -13,12 +13,12 @@ class ObjectTracker:
         #disappeared frames count
         self.disappeared = {}
         self.maxDisappeared = 3
+        self.printed = {}
 
 
     def update(self, objectsCOM, frameNum):
         # Objects boxes and ids
         objects_bbs_ids = []
-        timeSeconds = frameNum/30
 
         # print("input:")
         # print(objectsCOM)
@@ -46,10 +46,11 @@ class ObjectTracker:
                         del self.center_points[id]
                         del self.speed[id]
                         del self.disappeared[id]
+                        del self.printed[id]
                 for id, pt in self.center_points.items():
                     cx, cy = self.center_points[id]
                     speed = self.speed[id][0]
-                    objects_bbs_ids.append([cx, cy, id, speed])
+                    objects_bbs_ids.append([cx, cy, id, speed, self.printed[id]])
             else:
                 return []
 
@@ -69,7 +70,7 @@ class ObjectTracker:
                     self.speed[id] = [velocity, frameNum, self.speed[id][2]]
                     self.center_points[id] = (cx, cy)
                     self.disappeared[id] = 0
-                    objects_bbs_ids.append([cx, cy, id, velocity])
+                    objects_bbs_ids.append([cx, cy, id, velocity, self.printed[id]])
                     same_object_detected = True
                     break
 
@@ -82,8 +83,10 @@ class ObjectTracker:
                 # print(self.center_points)
                 self.speed[self.id_count] = [0, frameNum, frameNum] # [speed = 0, last updated frame = frameNum, first frame = frameNum]
                 self.disappeared[self.id_count] = 0
-                objects_bbs_ids.append([cx, cy, self.id_count, 0])
+                self.printed[self.id_count] = 0
+                objects_bbs_ids.append([cx, cy, self.id_count, 0, self.printed[self.id_count]])
                 self.id_count += 1
+                
     
         # new_disappeared_count = self.disappeared.copy()
         # for id in new_disappeared_count:
@@ -100,7 +103,7 @@ class ObjectTracker:
         new_center_points = {}
         new_disappear_points = {}
         for obj_bb_id in objects_bbs_ids:
-            _, _, object_id, _ = obj_bb_id
+            _, _, object_id, _, _ = obj_bb_id
             center = self.center_points[object_id]
             new_center_points[object_id] = center
 
@@ -120,6 +123,10 @@ class ObjectTracker:
         # print("speed")
         # print(self.speed)
         return objects_bbs_ids
+
+    def printedObject(self, objectID):
+        self.printed[objectID] = 1
+
 
 
 
