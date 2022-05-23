@@ -6,7 +6,7 @@ from DetectRoll import *
 from ObjectTracker import *
 from FrameExtractor import *
 
-frameNum = 0 #3170 #2300 #6000 # 0
+frameNum = 900 #3170 #2300 #6000 # 0
 
 trackerTetrapak = ObjectTracker()
 trackerRoll = ObjectTracker()
@@ -17,7 +17,6 @@ while True:
     img = cv2.imread("frames/frames%d.jpg" % frameNum, cv2.IMREAD_COLOR)
 
     img, StorePlastic = DetectPlasticBox(img)
-    # print(StoreLid)
     obj_ids_plastic = trackerPlastic.update(StorePlastic, frameNum)
     if (len(obj_ids_plastic) != 0):
         for obj_id in obj_ids_plastic:  #obj_id = [x, y, id, m/s, printed bool]
@@ -77,7 +76,6 @@ while True:
                     roll = DrawLanes(img)
                     roll = cv2.putText(roll, ("[%d] pixels/sec" %speed), (cX - 90 , cY + 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
                     cv2.imwrite("output/frames%d.jpg" % frameNum, roll)
-                    
 
     img = DrawLanes(img)
     cv2.imshow("Video frame", img)
