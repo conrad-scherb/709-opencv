@@ -12,7 +12,7 @@ class ObjectTracker:
         self.speed = {}
         #disappeared frames count
         self.disappeared = {}
-        self.maxDisappeared = 5
+        self.maxDisappeared = 20
         self.printed = {}
 
 
@@ -63,7 +63,7 @@ class ObjectTracker:
             for id, pt in self.center_points.items():
                 dist = math.hypot(int(cx) - pt[0], int(cy) - pt[1])
 
-                if (dist < 55) and ((int(cx) - (pt[0])) <= 5): # (minimum distance, and new x is left side) (+10 pixel tolerance)
+                if (dist < 120) and ((int(cx) - (pt[0])) <= 12): # (minimum distance, and new x is left side) (+10 pixel tolerance)
                     #todo speed 
                     bork = frameNum - self.speed[id][2]
                     velocity = ( (self.speed[id][0] * (bork - (frameNum - self.speed[id][1])) / 30 + (pt[0] - cx)) / ( (frameNum - self.speed[id][2]) / 30) )

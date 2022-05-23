@@ -40,7 +40,7 @@ def DetectPlasticBox(img):
     return img, PlasticCOM
 
 if __name__ == '__main__':
-    img = cv2.imread("frames/frames290.jpg", cv2.IMREAD_COLOR)
+    img = cv2.imread("frames/frames3140.jpg", cv2.IMREAD_COLOR)
     img, lidStorage = DetectPlasticBox(img)
     print(lidStorage)
     for i in lidStorage:

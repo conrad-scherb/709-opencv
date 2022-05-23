@@ -6,7 +6,7 @@ from DetectRoll import *
 from ObjectTracker import *
 from FrameExtractor import *
 
-frameNum = 900 #3170 #2300 #6000 # 0
+frameNum = 0 #3170 #2300 #6000 # 0
 
 trackerTetrapak = ObjectTracker()
 trackerRoll = ObjectTracker()
