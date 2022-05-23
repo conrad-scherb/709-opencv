@@ -1,5 +1,6 @@
 from re import A
 from DetectPlasticBox import *
+from DetectLid import *
 from DetectTetrapak import *
 from DetectRoll import *
 from ObjectTracker import *
@@ -30,6 +31,22 @@ while True:
                     plastic = DrawLanes(img)
                     plastic = cv2.putText(plastic, ("[%d] pixels/sec" %speed), (cX - 90 , cY + 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
                     cv2.imwrite("output/frames%d.jpg" % frameNum, plastic)
+
+    img, StoreLid = DetectLid(img)
+    # print(StoreLid)
+    obj_ids_lid = trackerLid.update(StoreLid, frameNum)
+    if (len(obj_ids_lid) != 0):
+        for obj_id in obj_ids_lid:  #obj_id = [x, y, id, m/s, printed bool]
+            cX, cY, id, speed, printed = obj_id
+            cv2.circle(img, (cX, cY), 7, (0, 255, 0), -1)
+            cv2.putText(img, "Lid", (cX , cY - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            cv2.putText(img, ("[%d]" %id), (cX , cY - 45), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+            if (printed != 1):
+                if(checkFor2Seconds(speed, cX, cY, "Lid", frameNum)):
+                    trackerLid.printedObject(id)
+                    lid = DrawLanes(img)
+                    lid = cv2.putText(lid, ("[%d] pixels/sec" %speed), (cX - 90 , cY + 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+                    cv2.imwrite("output/frames%d.jpg" % frameNum, lid)
 
     img, StoreTetrapak = DetectTetrapak(img)
     obj_ids_tetrapak = trackerTetrapak.update(StoreTetrapak, frameNum)
