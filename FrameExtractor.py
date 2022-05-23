@@ -24,13 +24,6 @@ def FrameExtractor(path):
     while success:
         success, image = video.read()
         try:
-            # y1=450
-            # y2=880
-            # x1=780
-            # x2=1780
-            # roi = image[y1:y2, x1:x2]   #trim video to save computing power
-            
-            # cv2.imwrite("framesTrimmed/frames%d.jpg" % frameNum, roi)
             cv2.imwrite("frames/frames%d.jpg" % frameNum, image)
             frameNum += 1
             print("Processing frame ", frameNum)

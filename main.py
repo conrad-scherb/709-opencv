@@ -13,6 +13,9 @@ trackerRoll = ObjectTracker()
 trackerPlastic = ObjectTracker()
 trackerLid = ObjectTracker()
 
+# FrameExtractor("conveyor_feed.mp4")
+# print("Frame processing complete.")
+
 while True:
     img = cv2.imread("frames/frames%d.jpg" % frameNum, cv2.IMREAD_COLOR)
 
@@ -47,7 +50,7 @@ while True:
                     lid = cv2.putText(lid, ("[%d] pixels/sec" %speed), (cX - 90 , cY + 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
                     cv2.imwrite("output/frames%d.jpg" % frameNum, lid)
 
-    img, StoreTetrapak = DetectTetrapak(img)
+    img, StoreTetrapak, TetrapakAngle = DetectTetrapak(img)
     obj_ids_tetrapak = trackerTetrapak.update(StoreTetrapak, frameNum)
     if (len(obj_ids_tetrapak) != 0):
         for obj_id in obj_ids_tetrapak:  #obj_id = [x,y, id]
@@ -60,9 +63,10 @@ while True:
                     trackerTetrapak.printedObject(id)
                     tetrapak = DrawLanes(img)
                     tetrapak = cv2.putText(tetrapak, ("[%d] pixels/sec" %speed), (cX - 90 , cY + 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+                    print("At an angle of %d." % TetrapakAngle[0])
                     cv2.imwrite("output/frames%d.jpg" % frameNum, tetrapak)
     
-    img, StoreRoll = DetectRoll(img)
+    img, StoreRoll, RollAngle = DetectRoll(img)
     obj_ids_roll = trackerRoll.update(StoreRoll, frameNum)
     if (len(obj_ids_roll) != 0):
         for obj_id in obj_ids_roll:  #obj_id = [x,y, id]
@@ -75,6 +79,7 @@ while True:
                     trackerRoll.printedObject(id)
                     roll = DrawLanes(img)
                     roll = cv2.putText(roll, ("[%d] pixels/sec" %speed), (cX - 90 , cY + 95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+                    print("At an angle of %d." % RollAngle[0])
                     cv2.imwrite("output/frames%d.jpg" % frameNum, roll)
 
     img = DrawLanes(img)

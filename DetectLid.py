@@ -7,7 +7,6 @@ def DetectLid(img):
     y2=880
     x1=780
     x2=1780
-    # img = cv2.imread(path, cv2.IMREAD_COLOR)
     roi = img[y1:y2, x1:x2]     #region of interest 
     hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
@@ -32,9 +31,6 @@ def DetectLid(img):
             cX = a + 780
             cY = b + 450
             cv2.circle(img, (cX, cY), 15, (0, 255, 0), 2)
-            # cv2.putText(img, 'Lid', (a-r-5, b-r-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-            # cv2.circle(img, (a, b), 7, (0, 255, 0), -1)
-            # img = DrawLanes(img, b)
             LidCOM.append([cX, cY])
     return img, LidCOM
 

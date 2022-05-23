@@ -33,9 +33,6 @@ def DetectPlasticBox(img):
             cY = b + 450
             cv2.rectangle(img, (cX-r-5, cY-r-5), (cX+r+5, cY+r+5), (0, 255, 0), 2)
             
-            # cv2.putText(img, 'Lid', (a-r-5, b-r-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-            # cv2.circle(img, (a, b), 7, (0, 255, 0), -1)
-            # img = DrawLanes(img, b)
             PlasticCOM.append([cX, cY])
     return img, PlasticCOM
 
