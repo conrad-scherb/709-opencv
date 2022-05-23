@@ -6,15 +6,15 @@ from DetectRoll import *
 from ObjectTracker import *
 from FrameExtractor import *
 
-frameNum = 0 #3170 #2300 #6000 # 0
+frameNum = 0 
 
 trackerTetrapak = ObjectTracker()
 trackerRoll = ObjectTracker()
 trackerPlastic = ObjectTracker()
 trackerLid = ObjectTracker()
 
-# FrameExtractor("conveyor_feed.mp4")
-# print("Frame processing complete.")
+FrameExtractor("conveyor_feed.mp4")
+print("Frame processing complete.")
 
 while True:
     img = cv2.imread("frames/frames%d.jpg" % frameNum, cv2.IMREAD_COLOR)
