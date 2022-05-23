@@ -1,5 +1,6 @@
 /.DS_Store
 /frames
 /framesTrimmed
+/output
 /__pycache__
 /kuka2-env
